@@ -160,7 +160,6 @@
     count(*) as Count 
   from "51564243-9f03-4b94-afca-a692345b9b7e" 
   WHERE "CREATED ONLINE" != ''
-  and substring("DATE OPENED" from 1 for 4) >= '2009'
   group by Year, "CREATED ONLINE" 
   order by Year, "CREATED ONLINE"
         </pre>
