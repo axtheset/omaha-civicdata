@@ -1,10 +1,10 @@
-## Charlotte County, FL CivicData Examples
+## City of Omaha, NE CivicData Examples
 
-Sample visualization of data queries from CivicData.io.
+Sample visualization of data queries from CivicData.com.
 
 ## Data Source
 
-Charlotte County, FL Building Permits on [CivicData.io](http://www.civicdata.com/en/dataset/generic_vrecord_3675/resource/8d38e6e7-033d-4b01-816c-f82dada79fa2)
+City of Omaha, NE Building Permits on [CivicData.com](http://www.civicdata.com/en/dataset/permit_base_5754/resource/b1664821-0e0e-4188-8535-c27b93c8ebe2)
 
 ## Built with
 
