@@ -201,6 +201,13 @@
           var mechanicalCounts = ['Mechanical'];
           var plumbingCounts = ['Plumbing'];
           var miscellaneousCounts = ['Miscellaneous'];
+          var licensesExamsCounts = ['Licenses & Exams'];
+          var receiptsCounts = ['Receipts'];
+          var boardApplicationCounts = ['Board Applications'];
+          var signsCounts = ['Signs'];
+          var planningCounts = ['Planning'];
+          var codeEnforcementCounts = ['Code Enforcement'];
+          var leaseCounts = ['Lease'];
           for(var i=0; i<records.length; i++) {
             if (records[i].recordtype == "BUILDING")
               buildingCounts.push(parseInt(records[i].count));
@@ -212,6 +219,20 @@
               plumbingCounts.push(parseInt(records[i].count));
             if (records[i].recordtype == "MISCELLANEOUS")
               miscellaneousCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "LICENSES & EXAMS")
+              licensesExamsCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "RECEIPTS")
+              receiptsCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "BOARD APPLICATIONS")
+              boardApplicationCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "SIGNS")
+              signsCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "PLANNING")
+              planningCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "CODE ENFORCEMENT")
+              codeEnforcementCounts.push(parseInt(records[i].count));
+            if (records[i].recordtype == "LEASE")
+              leaseCounts.push(parseInt(records[i].count));            
           }
 
             var chart = c3.generate({
@@ -224,7 +245,14 @@
                       electricalCounts,
                       mechanicalCounts,
                       plumbingCounts,
-                      miscellaneousCounts
+                      miscellaneousCounts,
+                      licensesExamsCounts,
+                      receiptsCounts,
+                      boardApplicationCounts,
+                      signsCounts,
+                      planningCounts,
+                      codeEnforcementCounts,
+                      leaseCounts
                   ]
               },
               axis: {
@@ -401,6 +429,9 @@
           });
 
         var onlineByYear = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT%20substring(%22DATE%20OPENED%22%20from%201%20for%204)%20as%20Year,%20%22CREATED%20ONLINE%22,%20count(*)%20as%20Count%20from%20%22a77ffe4f-6301-446d-b6f2-b9a9154ba072%22%20WHERE%20%22CREATED%20ONLINE%22%20!=%20%27%27%20and%20substring(%22DATE%20OPENED%22%20from%201%20for%204)%20%3E=%20%272011%27%20group%20by%20Year,%20%22CREATED%20ONLINE%22%20order%20by%20Year,%20%22CREATED%20ONLINE%22';
+
+        //var onlineByYear = 'http://www.civicdata.com/api/action/datastore_search_sql?sql=SELECT%20substring(%22DATE%20OPENED%22%20from%201%20for%204)%20as%20Year,%20%22CREATED%20ONLINE%22,%20count(*)%20as%20Count%20from%20%22a77ffe4f-6301-446d-b6f2-b9a9154ba072%22%20WHERE%20substring(%22DATE%20OPENED%22%20from%201%20for%204)%20%3E=%20%272011%27%20group%20by%20Year,%20%22CREATED%20ONLINE%22%20order%20by%20Year,%20%22CREATED%20ONLINE%22';
+
             // Draw the bar chart.
         requestJSON(onlineByYear, function(json) {
           var records = json.result.records
