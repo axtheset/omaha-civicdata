@@ -14,11 +14,9 @@
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
 <!-- Bootstrap themes. Uncomment your favorite. -->
-    <!--link href="//netdna.bootstrapcdn.com/bootswatch/3.1.1/cerulean/bootstrap.min.css" rel="stylesheet"-->
     <link href="http://netdna.bootstrapcdn.com/bootswatch/3.1.1/spacelab/bootstrap.min.css" rel="stylesheet">
-    <!--link href="http://netdna.bootstrapcdn.com/bootswatch/3.1.1/yeti/bootstrap.min.css" rel="stylesheet"-->
- 
     <link rel="stylesheet" type="text/css" href="assets/c3.css">
+
     <style type="text/css">
       body {
         margin-top: 40px;
@@ -49,17 +47,17 @@
         </div><!--/.nav-collapse -->
       </div>
     </div>
-
+    
     <div class="container theme-showcase" role="main">
-    <a name="top"></a>     
-    <!--<div class="page-header">
-      <a href="#top">Permit Applications Opened By Type Year to Date</a> | <a href="#byyear">Permit Applications Opened By Year</a> | <a href="#pietype">Permits Applications Opened by Type</a> 
-    </div>-->
-      <a name="yeartodate"></a>       
+    <a name="top"></a>    
+      
+      <div id="loading"></div>
+      <div class="canvas">
+
       <div class="page-header">
         <h1>Permit Applications Opened By Type Year to Date</h1>
       </div>
-
+      
       <div id="chart"></div>
       <div class="page-header">
         <h4>Query Details</h4>
@@ -78,10 +76,10 @@
   group by Year, Month, RecordType 
   order by Year, Month, RecordType
         </pre>
-      <a name="byyear"></a> 
       </div>
 
-      
+
+
       <div class="page-header">
         <h1>Permit Applications Opened By Year</h1>
       </div>
@@ -101,11 +99,12 @@
   order by Year, Month
         </pre>
       </div>
-      <a name="pietype"></a>
+      
+
+
       <div class="page-header">
         <h1>Permits Applications Opened by Type</h1>
       </div>
-
       <div id="pieChart"></div>
 
       <div class="page-header">
@@ -122,7 +121,8 @@
         </pre>
       </div>
 
-      <a name="onlinePercentageAll"></a>
+
+
       <div class="page-header">
         <h1>Percentage of Applications Filed Online</h1>
       </div>
@@ -143,7 +143,6 @@
         </pre>
       </div>
 
-      <a name="onlinePercentageAll"></a>
       <div class="page-header">
         <h1>Online Versus Paper Applications By Year</h1>
       </div>
@@ -166,6 +165,7 @@
   order by Year, "CREATED ONLINE"
         </pre>
       </div>
+      </div>
 
     </div> <!-- /container -->
 
@@ -173,23 +173,56 @@
     <!-- Le JavaScripts-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="js/spin.min.js" charset="utf-8"></script>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="assets/c3.min.js"></script>
     <script type="text/javascript">
       $(document).ready(function() {
-         
+
+        var opts = {
+          lines: 13, // The number of lines to draw
+          length: 20, // The length of each line
+          width: 10, // The line thickness
+          radius: 30, // The radius of the inner circle
+          corners: 1, // Corner roundness (0..1)
+          rotate: 0, // The rotation offset
+          direction: 1, // 1: clockwise, -1: counterclockwise
+          color: '#000', // #rgb or #rrggbb or array of colors
+          speed: 1, // Rounds per second
+          trail: 60, // Afterglow percentage
+          shadow: false, // Whether to render a shadow
+          hwaccel: true, // Whether to use hardware acceleration
+          className: 'spinner', // The CSS class to assign to the spinner
+          zIndex: 2e9, // The z-index (defaults to 2000000000)
+          top: '50%', // Top position relative to parent
+          left: '50%' // Left position relative to parent
+        };
+        
+        var spinner = new Spinner(opts).spin();
+        $('#loading').append(spinner.el);
+
+        $('.canvas').hide();
+
         var resourceId = "c494826d-9b96-45c9-bfd1-0a3e31186727";
         var baseURI = "http://www.civicdata.com/api/action/datastore_search_sql?sql=";
          
         // Helper function to make request for JSONP.
         function requestJSON(url, callback) {
           $.ajax({
+            beforeSend: function(){
+            // Handle the beforeSend event
+            },
             url: url,
             complete: function(xhr) {
               callback.call(null, xhr.responseJSON);
+             $('.canvas').show();
+             $('#loading').hide();
+               
             }
           });
         }
+
+
 
         var urlTimeSeriesQuery = "SELECT substring(\"DATE OPENED\" from 1 for 4) as Year, substring(\"DATE OPENED\" from 6 for 2) as Month, \"RECORD TYPE TYPE\" as RecordType,count(*) as Count from \"resource_id\" where \"DATE OPENED\" >= \'2014-01-01\' and \"DATE OPENED\" <= \'2014-12-31\' group by Year, Month, RecordType order by Year, Month, RecordType";
 
@@ -479,6 +512,7 @@
           });
 
       });
+
     </script>
   </body>
 </html>
